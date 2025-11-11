@@ -1,5 +1,5 @@
-darbiadev-sands
-===============
+SSActivewear SDK
+================
 
 A wrapper for S&S' API.
 
@@ -9,7 +9,7 @@ Module Index
 .. toctree::
    :maxdepth: 1
 
-   autoapi/darbia/sns/index
+   autoapi/ssactivewear_sdk/index
 
 .. toctree::
    :caption: Other:

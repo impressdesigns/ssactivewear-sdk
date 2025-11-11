@@ -1,5 +1,3 @@
-# darbiadev-sands
-
-A wrapper for S&S' API.
+# S&S Activewear SDK
 
 The API documentation is available at https://api.ssactivewear.com/V2/
