@@ -97,9 +97,9 @@ email-validator==2.3.0 ; platform_machine == 'x86_64' and sys_platform == 'linux
     --hash=sha256:80f13f623413e6b197ae73bb10bf4eb0908faf509ad8362c5edeb0be7fd450b4 \
     --hash=sha256:9fc05c37f2f6cf439ff414f8fc46d917929974a82244c20eb10231ba60c54426
     # via pydantic
-filelock==3.20.1 ; platform_machine == 'x86_64' and sys_platform == 'linux' \
-    --hash=sha256:15d9e9a67306188a44baa72f569d2bfd803076269365fdea0934385da4dc361a \
-    --hash=sha256:b8360948b351b80f420878d8516519a2204b07aefcdcfd24912a5d33127f188c
+filelock==3.20.3 ; platform_machine == 'x86_64' and sys_platform == 'linux' \
+    --hash=sha256:18c57ee915c7ec61cff0ecf7f0f869936c7c30191bb0cf406f1341778d0834e1 \
+    --hash=sha256:4b0dda527ee31078689fc205ec4f1c1bf7d56cf88b6dc9426c4f230e46c2dce1
     # via virtualenv
 furo==2025.9.25 ; platform_machine == 'x86_64' and sys_platform == 'linux' \
     --hash=sha256:2937f68e823b8e37b410c972c371bc2b1d88026709534927158e0cb3fac95afe \
