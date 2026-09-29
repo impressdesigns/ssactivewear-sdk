@@ -1,0 +1,35 @@
+[
+ {
+  "zipCode": "60440",
+  "warehouses": [
+   {
+    "warehouseAbbr": "IL",
+    "cutOffTime": "4:00 CT",
+    "timePeriod": "PM",
+    "cutOffTime24hr": "16:00",
+    "daysInTransit": 1
+   },
+   {
+    "warehouseAbbr": "NJ",
+    "cutOffTime": "4:00 ET",
+    "timePeriod": "PM",
+    "cutOffTime24hr": "16:00",
+    "daysInTransit": 3
+   },
+   {
+    "warehouseAbbr": "KS",
+    "cutOffTime": "4:00 CT",
+    "timePeriod": "PM",
+    "cutOffTime24hr": "16:00",
+    "daysInTransit": 2
+   },
+   {
+    "warehouseAbbr": "NV",
+    "cutOffTime": "4:00 PT",
+    "timePeriod": "PM",
+    "cutOffTime24hr": "16:00",
+    "daysInTransit": 4
+   }
+  ]
+}
+]

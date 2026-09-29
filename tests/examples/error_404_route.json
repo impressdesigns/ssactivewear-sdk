@@ -1,0 +1,4 @@
+{
+  "message": "No HTTP resource was found that matches the request URI 'https://apidev.ssactivewear.com/V1/orderss'.",
+  "messageDetail": "No type was found that matches the controller named 'orders'."
+}

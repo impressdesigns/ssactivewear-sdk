@@ -1,0 +1,11 @@
+{
+  "code": "400",
+  "message": "Bad Request.",
+  "errors":
+  [
+    {
+      "field": "Header",
+      "message": "You must set the Content-Type header when doing this request.  Options are application/json or application/xml."
+    }
+  ]
+}

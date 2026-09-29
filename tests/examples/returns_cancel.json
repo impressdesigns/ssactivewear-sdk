@@ -1,0 +1,43 @@
+[
+    {
+        "guid": "74f3e857-9357-4737-9baa-1e5023996f7d",
+        "companyName": "S&S Activewear",
+        "warehouseAbbr": "IL",
+        "orderNumber": "9490497",
+        "invoiceNumber": "3933327",
+        "poNumber": "Test",
+        "customerNumber": "00002",
+        "orderDate": "2016-11-18T17:37:48.743",
+        "orderType": "API",
+        "terms": "Net 30",
+        "orderStatus": "Cancelled",
+        "dropship": false,
+        "shippingCarrier": "UPS",
+        "shippingMethod": "Ground",
+        "shipBlind": false,
+        "shippingCollectNumber": "",
+        "shippingAddress": {
+            "customer": "Company ABC",
+            "attn": "John Doe",
+            "address": "123 Main St",
+            "city": "Bollingbrook",
+            "state": "WI",
+            "zip": "60440"
+        },
+        "subtotal": 0,
+        "shipping": 0,
+        "cod": 0,
+        "tax": 0,
+        "smallOrderFee": 0,
+        "cuponDiscount": 0,
+        "sampleDiscount": 0,
+        "setUpFee": 0,
+        "restockFee": 0,
+        "debitCredit": 0,
+        "total": 0,
+        "totalPieces": 0,
+        "totalLines": 0,
+        "totalWeight": 0.54,
+        "totalBoxes": 1
+    }
+]

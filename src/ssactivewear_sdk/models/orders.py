@@ -1,416 +1,596 @@
 """Order models."""
 
 from datetime import date, datetime
+from decimal import Decimal
+from enum import StrEnum
 from typing import Literal
 from uuid import UUID
 
-from pydantic import EmailStr, Field
+from pydantic import AliasChoices, Field, JsonValue, field_serializer
 
-from ._base import SSActivewearBaseModel
+from ._base import FlexibleInt, SSActivewearBaseModel
 
 
-class OrderRequestShippingAddress(SSActivewearBaseModel):
-    """Shipping address for an order."""
+class ShippingMethod(StrEnum):
+    """Shipping methods accepted when placing an order."""
 
-    customer: str = Field(
-        description="Customer/Company name",
-    )
-    attention_to: str = Field(
-        alias="attn",
-        description="Attention to (recipient name)",
-    )
+    GROUND = "1"
+    """Ground (carrier determined by S&S)."""
+    UPS_NEXT_DAY_AIR = "2"
+    UPS_SECOND_DAY_AIR = "3"
+    WILL_CALL = "6"
+    """Will call / pickup."""
+    MESSENGER_PICKUP = "8"
+    """Messenger pickup / pickup."""
+    FEDEX_GROUND = "14"
+    UPS_THREE_DAY_SELECT = "16"
+    UPS_NEXT_DAY_AIR_EARLY_AM = "17"
+    UPS_SATURDAY = "19"
+    UPS_SATURDAY_EARLY = "20"
+    UPS_NEXT_DAY_AIR_SAVER = "21"
+    UPS_SECOND_DAY_AIR_AM = "22"
+    FEDEX_NEXT_DAY_PRIORITY = "26"
+    FEDEX_NEXT_DAY_STANDARD = "27"
+    UPS_GROUND = "40"
+    FEDEX_SECOND_DAY_AIR = "48"
+    MISC_CHEAPEST = "54"
+    """S&S picks the most cost-effective ground service (USPS First Class, USPS Priority Mail, UPS SurePost, UPS Ground)."""  # noqa: E501
+
+
+# ---------------------------------------------------------------------------------------------
+# Requests
+# ---------------------------------------------------------------------------------------------
+
+
+class OrderShippingAddress(SSActivewearBaseModel):
+    """Where to ship an order."""
+
     address: str = Field(
-        description="Street address",
+        description="Street address.",
     )
     city: str = Field(
-        description="City",
+        description="City.",
     )
     state: str = Field(
-        description="State abbreviation",
+        description="State abbreviation.",
     )
-    postal_code: str = Field(
-        alias="zip",
-        description="ZIP/Postal code",
+    zip: str = Field(
+        description="ZIP code (5 digits).",
     )
-    residential: bool = Field(
-        default=True,
-        description="Whether this is a residential address",
+    customer: str | None = Field(
+        default=None,
+        description='Customer or company name. S&S defaults to "".',
+    )
+    attn: str | None = Field(
+        default=None,
+        description='Attention line. S&S defaults to "".',
+    )
+    residential: bool | None = Field(
+        default=None,
+        description="Whether this is a residential address. S&S defaults to true.",
     )
 
 
-class OrderRequestPaymentProfile(SSActivewearBaseModel):
-    """Payment profile information.
+class OrderLineRequest(SSActivewearBaseModel):
+    """A sku to order."""
 
-    This is used of you would like to pay via a saved credit card or bank account
-    on your www.ssactivewear.com website account.
-    """
+    identifier: str = Field(
+        description="SkuID_Master, Sku, or Gtin.",
+    )
+    qty: int = Field(
+        description="Quantity to order.",
+    )
+    warehouse_abbr: str | None = Field(
+        default=None,
+        alias="warehouseAbbr",
+        description="Warehouse to ship from. Ignored when ``autoselect_warehouse`` is set.",
+    )
 
-    email: EmailStr = Field(
-        description="Email of the website user where the card is saved",
+
+class PaymentProfileReference(SSActivewearBaseModel):
+    """A saved credit card or bank account to pay with."""
+
+    email: str = Field(
+        description="Email of the website user the payment method is saved under.",
     )
     profile_id: int = Field(
         alias="profileID",
-        description="ProfileID retuned in GET - /V2/paymentprofile api call for the given profile",
-    )
-
-
-class OrderRequestOrderLine(SSActivewearBaseModel):
-    """Order line item."""
-
-    identifier: str = Field(
-        description="SkuID_Master, Sku, Gtin",
-    )
-    quantity: int = Field(
-        alias="qty",
-        description="Quantity to order",
-    )
-    warehouse_abbreviation: str | None = Field(
-        default=None,
-        alias="warehouseAbbr",
-        description="Determines what warehouse to ship from.",
+        description="Profile ID returned by :meth:`~ssactivewear_sdk.client.SSActivewear.get_payment_profiles`.",
     )
 
 
 class OrderRequest(SSActivewearBaseModel):
-    """Order creation request."""
+    """An order to place.
 
-    shipping_address: OrderRequestShippingAddress = Field(
+    Every optional field left as ``None`` is omitted from the request, so S&S applies its own
+    default.
+    """
+
+    shipping_address: OrderShippingAddress = Field(
         alias="shippingAddress",
-        description="Shipping address information",
+        description="Where to ship the order.",
     )
-    lines: list[OrderRequestOrderLine] = Field(
-        description="List of products to order",
+    lines: list[OrderLineRequest] = Field(
+        description="Skus to order.",
     )
-    shipping_method: Literal[
-        "1",  # Ground (Carrier determined by S&S)
-        "2",  # UPS Next Day Air
-        "3",  # UPS 2nd Day Air
-        "6",  # Will Call / PickUp
-        "8",  # Messenger Pickup / PickUp
-        "14",  # FedEx Ground
-        "16",  # UPS 3 Day Select
-        "17",  # UPS Next Day Air Early AM
-        "19",  # UPS Saturday
-        "20",  # UPS Saturday Early
-        "21",  # UPS Next Day Air Saver
-        "22",  # UPS 2nd Day Air AM
-        "26",  # FedEx Next Day Priority
-        "27",  # FedEx Next Day Standard
-        "40",  # UPS Ground
-        "48",  # FedEx 2nd Day Air
-        "54",  # Misc Cheapest
-    ] = Field(
-        default="1",
+    shipping_method: ShippingMethod | None = Field(
+        default=None,
         alias="shippingMethod",
-        description=(
-            "Shipping method: 1=Ground (Carrier determined by S&S), 2=UPS Next Day Air, "
-            "3=UPS 2nd Day Air, 16=UPS 3 Day Select, 6=Will Call/PickUp, "
-            "8=Messenger Pickup/PickUp, 54=Misc Cheapest, 17=UPS Next Day Air Early AM, "
-            "21=UPS Next Day Air Saver, 19=UPS Saturday, 20=UPS Saturday Early, "
-            "22=UPS 2nd Day Air AM, 14=FedEx Ground, 27=FedEx Next Day Standard, "
-            "26=FedEx Next Day Priority, 40=UPS Ground, 48=FedEx 2nd Day Air"
-        ),
+        description="Shipping method. S&S defaults to ground.",
     )
     ship_blind: bool | None = Field(
         default=None,
         alias="shipBlind",
-        description="Override customer settings for blind shipping",
+        description="Overrides the account's blind shipping setting.",
     )
-    po_number: str = Field(
-        default="",
+    po_number: str | None = Field(
+        default=None,
         alias="poNumber",
-        description="Customer PO number",
+        description="Customer PO number.",
     )
-    email_confirmation: str = Field(
-        default="",
+    email_confirmation: str | None = Field(
+        default=None,
         alias="emailConfirmation",
-        description="Email address to receive confirmation",
+        description="Email address to send an order confirmation to.",
     )
-    test_order: bool = Field(
-        default=False,
+    test_order: bool | None = Field(
+        default=None,
         alias="testOrder",
-        description="Test orders will be created and cancelled",
+        description="Test orders are created and then cancelled.",
     )
-    autoselect_warehouse: bool = Field(
-        default=False,
+    autoselect_warehouse: bool | None = Field(
+        default=None,
         alias="autoselectWarehouse",
-        description="Allow S&S to choose warehouse, may split between multiple warehouses",
+        description="Let S&S choose the warehouse. Lines may be split between warehouses.",
     )
     promotion_code: str | None = Field(
         default=None,
         alias="promotionCode",
-        description="Promotion code for products on the order",
+        description="Promotion code that applies to products on the order.",
     )
-    autoselect_warehouse_warehouses: str | None = Field(
+    autoselect_warehouse_warehouses: list[str] | None = Field(
         default=None,
         alias="autoselectWarehouse_Warehouses",
-        description=(
-            "Comma-separated list of warehouse abbreviations to restrict autoselect to, "
-            "e.g. 'IL,KS,GA,NV,TX,FL,OH,PA,DS,CC,CN,FO,GD,KC,MA,PH,TD'"
-        ),
+        description="Restrict warehouse autoselection to these warehouses.",
     )
-    autoselect_warehouse_preference: Literal["fewest", "fastest"] = Field(
-        default="fewest",
+    autoselect_warehouse_preference: Literal["fewest", "fastest"] | None = Field(
+        default=None,
         alias="AutoSelectWarehouse_Preference",
-        description="Freight optimizer selection: 'fewest' or 'fastest'",
+        description="Freight optimizer selection. S&S defaults to fewest.",
     )
-    autoselect_warehouse_fewest_max_dit: int = Field(
-        default=10,
+    autoselect_warehouse_fewest_max_dit: int | None = Field(
+        default=None,
         alias="AutoSelectWarehouse_Fewest_MaxDIT",
-        description="Maximum days in transit for 'fewest' before switching to 'fastest'",
+        description="Maximum days in transit for fewest before switching to fastest. S&S defaults to 10.",
     )
-    reject_line_errors: bool = Field(
-        default=True,
+    reject_line_errors: bool | None = Field(
+        default=None,
         alias="rejectLineErrors",
         description=(
-            "If false, place order for items that can be filled; response includes both Orders and LineErrors"
+            "When false, S&S places the order for every line it can fill and reports the rest as "
+            "line errors. S&S defaults to true."
         ),
     )
-    reject_line_errors_email: bool = Field(
-        default=True,
+    reject_line_errors_email: bool | None = Field(
+        default=None,
         alias="rejectLineErrors_Email",
-        description="Email unfillable line items to emailConfirmation address",
+        description="Email unfillable lines to ``email_confirmation``. S&S defaults to true.",
     )
-    payment_profile: OrderRequestPaymentProfile | None = Field(
+    payment_profile: PaymentProfileReference | None = Field(
         default=None,
         alias="paymentProfile",
-        description="Payment profile for saved credit card or bank account",
+        description="Pay with a saved credit card or bank account.",
+    )
+    ship_by_date: date | None = Field(
+        default=None,
+        alias="shipByDate",
+        description="Ship by date.",
     )
 
+    @field_serializer("autoselect_warehouse_warehouses")
+    def _serialize_warehouses(self, warehouses: list[str] | None) -> str | None:
+        """S&S takes the warehouse list as one comma separated string."""
+        if warehouses is None:
+            return None
+        return ",".join(warehouses)
 
-class OrderResponseShippingAddress(SSActivewearBaseModel):
-    """Shipping address in order response."""
+    @field_serializer("ship_by_date")
+    def _serialize_ship_by_date(self, ship_by_date: date | None) -> str | None:
+        """S&S takes the ship by date as ``MM/DD/YYYY``."""
+        if ship_by_date is None:
+            return None
+        return ship_by_date.strftime("%m/%d/%Y")
+
+
+# ---------------------------------------------------------------------------------------------
+# Responses
+# ---------------------------------------------------------------------------------------------
+
+
+class ShippingAddress(SSActivewearBaseModel):
+    """Where an order ships to."""
 
     customer: str = Field(
-        description="Customer/Company name",
+        description="Customer name.",
     )
     attn: str = Field(
-        description="Attention to (recipient name)",
+        description="Attention line.",
     )
     address: str = Field(
-        description="Street address",
+        description="Address line.",
     )
     city: str = Field(
-        description="City",
+        description="City.",
     )
     state: str = Field(
-        description="State abbreviation",
+        description="State.",
     )
     zip: str = Field(
-        description="ZIP/Postal code",
+        description="ZIP code.",
     )
 
 
-class OrderResponseLine(SSActivewearBaseModel):
-    """Order line item in response."""
+class BillingAddress(SSActivewearBaseModel):
+    """Who an order is billed to."""
+
+    bill_to: str = Field(
+        alias="billTo",
+        description="Billing name.",
+    )
+    attn: str = Field(
+        description="Attention line.",
+    )
+    address: str = Field(
+        description="Address line.",
+    )
+    city: str = Field(
+        description="City.",
+    )
+    state: str = Field(
+        description="State.",
+    )
+    zip: str = Field(
+        description="ZIP code.",
+    )
+
+
+class OrderLine(SSActivewearBaseModel):
+    """A line of an order, or of a box within an order."""
 
     line_number: int = Field(
         alias="lineNumber",
-        description="Line number in the order",
+        description="Line number of the order.",
     )
     type: str = Field(
-        description="Type of line item",
+        description="S = stocked skus, NS = not stocked skus.",
     )
     sku_id: int = Field(
         alias="skuID",
-        description="Unique SKU ID",
+        description="Unique ID for this sku (does not change).",
     )
     sku: str = Field(
-        description="SKU number",
+        description="Part number for the product.",
     )
     gtin: str = Field(
-        description="Global Trade Item Number",
+        description="Industry standard identifier used by all suppliers.",
     )
     your_sku: str = Field(
         alias="yourSku",
-        description="Your custom SKU reference",
+        description="Your sku, set up using the cross reference API.",
     )
-    qty_ordered: int = Field(
+    qty_ordered: FlexibleInt = Field(
         alias="qtyOrdered",
-        description="Quantity ordered",
+        description="Quantity ordered. Negative on return (credit) orders.",
     )
-    price: float = Field(
-        description="Price per unit",
+    qty_shipped: int | None = Field(
+        default=None,
+        alias="qtyShipped",
+        description="Quantity shipped.",
+    )
+    price: Decimal | None = Field(
+        default=None,
+        description="Price of each item. Not sent on box lines.",
     )
     brand_name: str = Field(
         alias="brandName",
-        description="Brand name",
+        description="Brand name.",
     )
     style_name: str = Field(
         alias="styleName",
-        description="Style name",
+        description="Style name.",
     )
     title: str = Field(
-        description="Product title",
+        description="Description of the product.",
     )
     color_name: str = Field(
         alias="colorName",
-        description="Color name",
+        description="Color name.",
     )
     size_name: str = Field(
         alias="sizeName",
-        description="Size name",
+        description="Size name.",
     )
-    returnable: bool = Field(
-        description="Whether the product is eligible for return",
+    returnable: bool | None = Field(
+        default=None,
+        description="This product is eligible for return. Not sent on box lines.",
     )
 
 
-class OrderResponse(SSActivewearBaseModel):
-    """Order response."""
+class BoxReturnInformation(SSActivewearBaseModel):
+    """Return shipping labels for one box of a return order."""
+
+    shipping_label_png: str | None = Field(
+        default=None,
+        alias="shippingLabelPNG",
+        description="Shipping label URL for the box.",
+    )
+    shipping_label_zpl: str | None = Field(
+        default=None,
+        alias="shippingLabelZPL",
+        description="Base64 encoded ZPL code for the box.",
+    )
+
+
+class Box(SSActivewearBaseModel):
+    """A box in a shipment."""
+
+    box_number: int = Field(
+        alias="boxNumber",
+        description="Box number of the order.",
+    )
+    tracking_number: str = Field(
+        alias="trackingNumber",
+        description="Tracking number.",
+    )
+    weight: Decimal = Field(
+        description="Weight of the box.",
+    )
+    cubic_volume: Decimal = Field(
+        alias="cubicVolume",
+        description="Cubic volume of the box.",
+    )
+    box_required: bool | None = Field(
+        default=None,
+        alias="boxRequired",
+        description="Undocumented by S&S.",
+    )
+    conveyor_barcode: str | None = Field(
+        default=None,
+        alias="conveyorBarcode",
+        description="Conveyor barcode.",
+    )
+    return_information: BoxReturnInformation | None = Field(
+        default=None,
+        alias="returnInformation",
+        description="Return shipping labels. Only sent for return orders.",
+    )
+    lines: list[OrderLine] = Field(
+        default_factory=list,
+        description="Lines packed in this box.",
+    )
+
+
+class Order(SSActivewearBaseModel):
+    """A placed order.
+
+    Totals and lines are only as complete as the request asked for: ``lines``, ``boxes`` and
+    ``billing_address`` are only sent when requested, and ``ship_date``, ``invoice_date`` and
+    ``tracking_number`` only once the order has shipped or been invoiced.
+    """
 
     guid: UUID = Field(
-        description="Unique order GUID",
-        strict=False,
+        description="Unique ID for this order (does not change).",
     )
     company_name: str = Field(
         alias="companyName",
-        description="Company name",
+        description="Company name.",
     )
     warehouse_abbr: str = Field(
         alias="warehouseAbbr",
-        description="Warehouse abbreviation",
+        description="Warehouse the order ships from.",
     )
     order_number: str = Field(
         alias="orderNumber",
-        description="Order number",
+        description="The order and confirmation number assigned when the order was placed.",
     )
     invoice_number: str = Field(
         alias="invoiceNumber",
-        description="Invoice number",
+        description="The invoice number, assigned shortly after the order is placed.",
     )
     po_number: str = Field(
         alias="poNumber",
-        description="Purchase order number",
+        description="The PO number submitted with the order.",
     )
     customer_number: str = Field(
         alias="customerNumber",
-        description="Customer number",
+        description="Customer number of the account.",
+    )
+    order_header_id: int | None = Field(
+        default=None,
+        alias="orderHeaderID",
+        description="Undocumented by S&S; present in its code samples.",
     )
     order_date: datetime = Field(
         alias="orderDate",
-        description="Order date",
-        strict=False,
+        description="When the order was placed.",
     )
-    expected_delivery_date: date = Field(
+    ship_date: datetime | None = Field(
+        default=None,
+        alias="shipDate",
+        description="When the order shipped.",
+    )
+    invoice_date: datetime | None = Field(
+        default=None,
+        alias="invoiceDate",
+        description="When the order was invoiced.",
+    )
+    expected_delivery_date: datetime | None = Field(
+        default=None,
         alias="expectedDeliveryDate",
-        description="Expected delivery date",
-        strict=False,
+        description="When the order is expected to be delivered.",
     )
     order_type: str = Field(
         alias="orderType",
-        description="Order type (e.g., 'API')",
+        description="How the order was placed, e.g. CSR, Web, EDI, API, Credit, Replacement.",
     )
     terms: str = Field(
-        description="Payment terms",
+        description="Terms of the order.",
     )
     order_status: str = Field(
         alias="orderStatus",
-        description="Order status (e.g., 'In Progress')",
+        description="Status of the order, e.g. In Progress, Shipped, Completed, Cancelled.",
     )
     dropship: bool = Field(
-        description="Whether this is a dropship order",
+        description="If the order is a dropship order.",
     )
     shipping_carrier: str = Field(
         alias="shippingCarrier",
-        description="Shipping carrier (e.g., 'UPS')",
+        description="Carrier used.",
     )
     shipping_method: str = Field(
         alias="shippingMethod",
-        description="Shipping method (e.g., 'UPS Ground')",
+        description="Freight service used.",
     )
     ship_blind: bool = Field(
         alias="shipBlind",
-        description="Whether this is a blind shipment",
+        description="If the order ships blind.",
     )
     shipping_collect_number: str = Field(
         alias="shippingCollectNumber",
-        description="Shipping collect number",
+        description="Freight account that was charged.",
     )
-    shipping_address: OrderResponseShippingAddress = Field(
+    tracking_number: str | None = Field(
+        default=None,
+        alias="trackingNumber",
+        description="Tracking number.",
+    )
+    shipping_address: ShippingAddress = Field(
         alias="shippingAddress",
-        description="Shipping address",
+        description="Where the order ships to.",
     )
-    subtotal: float = Field(
-        description="Order subtotal",
+    billing_address: BillingAddress | None = Field(
+        default=None,
+        alias="billingAddress",
+        description="Who the order is billed to.",
     )
-    shipping: float = Field(
-        description="Shipping cost",
+    subtotal: Decimal = Field(
+        description="Merchandise value of the order.",
     )
-    cod: float = Field(
-        description="Cash on delivery fee",
+    shipping: Decimal = Field(
+        description="Shipping and handling charged.",
     )
-    tax: float = Field(
-        description="Tax amount",
+    shipping_saved: Decimal | None = Field(
+        default=None,
+        alias="shippingSaved",
+        description="Difference between the carrier's cost for the shipment and what S&S charged.",
     )
-    small_order_fee: float = Field(
+    cod: Decimal = Field(
+        description="COD amount.",
+    )
+    tax: Decimal = Field(
+        description="Tax charged.",
+    )
+    lost_cash_discount: Decimal | None = Field(
+        default=None,
+        alias="lostCashDiscount",
+        description="Lost cash discount.",
+    )
+    small_order_fee: Decimal = Field(
         alias="smallOrderFee",
-        description="Small order fee",
+        description="Small order fee.",
     )
-    cupon_discount: float = Field(
+    cupon_discount: Decimal = Field(
         alias="cuponDiscount",
-        description="Coupon discount amount",
+        description="Miscellaneous discount (not used).",
     )
-    sample_discount: float = Field(
+    sample_discount: Decimal = Field(
         alias="sampleDiscount",
-        description="Sample discount amount",
+        description="Sample discount.",
     )
-    set_up_fee: float = Field(
+    set_up_fee: Decimal = Field(
         alias="setUpFee",
-        description="Setup fee",
+        description="Set up fee.",
     )
-    restock_fee: float = Field(
+    restock_fee: Decimal = Field(
         alias="restockFee",
-        description="Restock fee",
+        description="Restock fee.",
     )
-    debit_credit: float = Field(
+    debit_credit: Decimal = Field(
         alias="debitCredit",
-        description="Debit/Credit amount",
+        description="Debit/credit.",
     )
-    total: float = Field(
-        description="Total order amount",
+    total: Decimal = Field(
+        description="Total order amount.",
     )
-    total_pieces: int = Field(
+    total_pieces: FlexibleInt = Field(
         alias="totalPieces",
-        description="Total number of pieces",
+        description="Total pieces on the order. Negative on return (credit) orders.",
     )
     total_lines: int = Field(
         alias="totalLines",
-        description="Total number of line items",
+        description="Total lines on the order.",
     )
-    total_weight: float = Field(
+    total_weight: Decimal = Field(
         alias="totalWeight",
-        description="Total weight in pounds",
+        description="Total weight of the order.",
     )
-    total_boxes: int = Field(
+    total_boxes: FlexibleInt = Field(
         alias="totalBoxes",
-        description="Total number of boxes",
+        description="Total boxes on the order.",
     )
-    delivery_status: str = Field(
+    delivery_status: str | None = Field(
+        default=None,
         alias="deliveryStatus",
-        description="Delivery status",
+        description="Current delivery status, e.g. Shipped - In Transit.",
     )
-    conveyor_lane: str = Field(
+    conveyor_lane: str | None = Field(
+        default=None,
         alias="conveyorLane",
-        description="Conveyor lane",
+        description="Conveyor lane.",
     )
-    lines: list[OrderResponseLine] = Field(
-        description="List of order line items",
+    lines: list[OrderLine] = Field(
+        default_factory=list,
+        description="Order lines. Only sent when requested.",
     )
-    shipping_saved: float = Field(
-        alias="shippingSaved",
-        description="Total shipping saved",
+    boxes: list[Box] = Field(
+        default_factory=list,
+        description="Boxes in the shipment. Only sent when requested.",
+    )
+
+
+class OrderSubmission(SSActivewearBaseModel):
+    """The result of placing an order.
+
+    An order may be split into several orders, one per warehouse. ``line_errors`` is only
+    populated when the request set ``reject_line_errors=False``.
+    """
+
+    orders: list[Order] = Field(
+        validation_alias=AliasChoices("orders", "Orders"),
+        serialization_alias="orders",
+        description="The orders that were placed.",
+    )
+    line_errors: list[JsonValue] = Field(
+        default_factory=list,
+        validation_alias=AliasChoices("lineErrors", "LineErrors"),
+        serialization_alias="lineErrors",
+        description="Lines that could not be filled. The shape is not documented by S&S.",
     )
 
 
-class OrderResponseContainer(SSActivewearBaseModel):
-    """Order response container."""
+class PaymentProfile(SSActivewearBaseModel):
+    """A saved credit card or bank account."""
 
-    line_errors: list[str] = Field(
-        alias="lineErrors",
-        description="List of line errors",
+    profile_id: int = Field(
+        alias="profileID",
+        description="Unique ID for this payment profile (used when placing orders).",
     )
-
-    orders: list[OrderResponse] = Field(
-        description="List of orders",
+    profile_type: str = Field(
+        # The object definition misspells this as ``profyleType``.
+        validation_alias=AliasChoices("profileType", "profyleType"),
+        serialization_alias="profileType",
+        description="Credit Card or Bank.",
+    )
+    name: str = Field(
+        description="Logical name for the payment profile.",
     )

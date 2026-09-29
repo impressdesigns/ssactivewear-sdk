@@ -1,0 +1,32 @@
+[
+    {
+        "sku": "B00760004",
+        "gtin": "00821780001001",
+        "skuID_Master": 2343,
+        "yourSku": "",
+        "styleID": 39,
+        "warehouses":
+        [
+            {
+                "warehouseAbbr": "IL",
+                "skuID": 2343,
+                "qty": 10000
+            },
+            {
+                "warehouseAbbr": "NV",
+                "skuID": 55405,
+                "qty": 0
+            },
+            {
+                "warehouseAbbr": "NJ",
+                "skuID": 170872,
+                "qty": 2210
+            },
+            {
+                "warehouseAbbr": "KS",
+                "skuID": 263747,
+                "qty": 7326
+            }
+        ]
+    }
+]
