@@ -1,0 +1,23 @@
+{
+    "shippingAddress": {
+        "customer": "Company ABC",
+        "attn": "John Doe",
+        "address": "123 Main St",
+        "city": "Bolingbrook",
+        "state": "IL",
+        "zip": "60440",
+        "residential": true
+    },
+    "shippingMethod": "1",
+    "shipBlind": false,
+    "poNumber": "Test",
+    "emailConfirmation": "",
+    "testOrder": false,
+    "autoselectWarehouse": true,
+    "lines": [
+        {
+            "identifier": "B00760003",
+            "qty": 2
+        }
+    ]
+}

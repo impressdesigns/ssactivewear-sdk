@@ -1,21 +1,18 @@
 [project]
 name = "idi-ssactivewear-sdk"
-version = "0.2.0"
+version = "1.0.0"
 description = "A wrapper for S&S' API."
-readme = "README.md"
 authors = [
     { name = "Bradley Reynolds", email = "bradley.reynolds@impressdesigns.com" },
 ]
+readme = "README.md"
 license = { text = "MIT" }
 requires-python = ">=3.14"
-dependencies = [
-    "httpx>=0.28.1",
-    "pydantic[email]>=2.13.4",
-]
+dependencies = ["pydantic>=2.12", "niquests>=3.21.0"]
 
 [project.urls]
 repository = "https://github.com/impressdesigns/ssactivewear-sdk"
-documentation = "http://impressdesigns.dev/ssactivewear-sdk/"
+documentation = "https://impressdesigns.dev/ssactivewear-sdk/"
 
 [build-system]
 requires = ["uv_build"]
@@ -24,18 +21,19 @@ build-backend = "uv_build"
 [dependency-groups]
 dev = [
     # DX
-    "nox>=2026.7.11",
-    "pre-commit>=4.6.1",
+    "nox>=2026.8.10",
+    "prek>=0.4.14",
     # Linters
-    "ruff>=0.16.0",
-    "mypy>=2.3.0",
+    "ruff>=0.16.3",
+    "mypy>=2.3.1",
+    "ty>=0.0.72",
 ]
 docs = [
-    "sphinx>=7.4.4",
+    "sphinx>=9.1.0",
     # Theme
-    "furo>=2024.5.6",
+    "furo>=2025.12.19",
     # Extensions
-    "sphinx-autoapi>=3.1.2",
+    "sphinx-autoapi>=3.8.0",
     "releases>=2.1.1",
 ]
 tests = [
@@ -46,6 +44,9 @@ tests = [
 ]
 
 [tool.uv]
+# Sync with Dependabot's uv version
+required-version = ">=0.11.8"
+exclude-newer = "P7D"
 environments = [
     "sys_platform == 'linux' and platform_machine == 'x86_64'",
 ]
@@ -54,23 +55,31 @@ environments = [
 module-name = "ssactivewear_sdk"
 
 [tool.ruff]
-target-version = "py314"
 line-length = 120
+cache-dir = ".cache/ruff"
 
 [tool.ruff.lint]
 select = ["ALL"]
 ignore = [
-    "CPY001",  # (Missing copyright notice at top of file) - No license
-    "TC",      # (flake8-type-checking) - Pydantic uses runtime type checking
+    "COM812", # (missing-trailing-comma) - Conflicts with formatter
+    "CPY001", # (Missing copyright notice at top of file) - No license
 ]
 
 [tool.ruff.lint.extend-per-file-ignores]
 "docs/*" = [
-    "INP001", # (File `tests/*.py` is part of an implicit namespace package. Add an `__init__.py`.) - Docs are not modules
+    "INP001", # (File `docs/conf.py` is part of an implicit namespace package. Add an `__init__.py`.) - Docs are not modules
 ]
 "tests/*" = [
-    "INP001", # (File `tests/*.py` is part of an implicit namespace package. Add an `__init__.py`.) - Tests are not modules
-    "S101",   # (Use of `assert` detected) - Yes, that's the point
+    "S101", # (Use of `assert` detected) - Yes, that's the point
+]
+
+[tool.ruff.lint.flake8-type-checking]
+# Pydantic evaluates annotations at runtime to build validators, so imports used only
+# in model annotations must stay at runtime scope. Without this, py314's deferred
+# annotations make TC rules think they are safe to move into a type-checking block.
+runtime-evaluated-base-classes = [
+    "pydantic.BaseModel",
+    "ssactivewear_sdk.models._base.SSActivewearBaseModel",
 ]
 
 [tool.ruff.lint.isort]
@@ -79,14 +88,23 @@ known-first-party = ["ssactivewear_sdk"]
 [tool.ruff.lint.pydocstyle]
 convention = "numpy"
 
+# Still need to tell Mypy to ignore these
+[tool.ty.rules]
+unused-ignore-comment = "ignore"
+
 [tool.mypy]
+pretty = true
+num_workers = 4
+native_parser = true # required by num_workers
 plugins = ["pydantic.mypy"]
+cache_dir = ".cache/mypy"
 
 [tool.coverage.run]
 branch = true
 source_pkgs = ["ssactivewear_sdk"]
 source_dirs = ["tests"]
+data_file = ".cache/coverage/.coverage"
 
 [tool.pytest]
 strict = true
-junit_family = "legacy"
+cache_dir = ".cache/pytest"

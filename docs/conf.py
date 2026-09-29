@@ -26,12 +26,35 @@ extensions = [
 ]
 
 autoapi_type: str = "python"
-autoapi_dirs: list[str] = ["../../src"]
+autoapi_dirs: list[str] = ["../src"]
 
-intersphinx_mapping = {"python": ("https://docs.python.org/3", None)}
+intersphinx_mapping = {
+    "python": ("https://docs.python.org/3", None),
+    "pydantic": ("https://docs.pydantic.dev/latest", None),
+    "niquests": ("https://niquests.readthedocs.io/en/latest", None),
+}
 
-# Add any paths that contain templates here, relative to this directory.
-templates_path: list[str] = ["_templates"]
+# References with nothing to link to. AutoAPI renders PEP 695 type parameters and the
+# right-hand side of PEP 695 type aliases without resolving their imports, and it links
+# pydantic's JsonValue as a class although pydantic documents it as data.
+nitpick_ignore: list[tuple[str, str]] = [
+    ("py:class", name)
+    for name in (
+        # Type parameters
+        "T",
+        "ModelT",
+        # Type alias values
+        "date",
+        "datetime",
+        "BeforeValidator",
+        "Strict",
+        "_blank_to_none",
+        "_number_to_str",
+        "_parse_timestamp",
+        # Documented by pydantic as data
+        "pydantic.JsonValue",
+    )
+]
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
@@ -43,11 +66,6 @@ exclude_patterns: list[str] = ["_build", "Thumbs.db", ".DS_Store"]
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 html_theme: str = "furo"
-
-# Add any paths that contain custom static files (such as style sheets) here,
-# relative to this directory. They are copied after the builtin static files,
-# so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path: list[str] = ["_static"]
 
 releases_github_path = REPO_LINK.removeprefix("https://github.com/")
 releases_release_uri = f"{REPO_LINK}/releases/tag/v%s"
@@ -88,6 +106,9 @@ def linkcode_resolve(domain: str, info: dict) -> str | None:
             last = first + len(lines) - 1
             filename += f"#L{first}-L{last}"
         except OSError, TypeError:
+            # getsourcelines raises OSError when it cannot locate the source (C extensions,
+            # dynamically constructed objects) and TypeError for builtins. Neither is worth
+            # failing a docs build over, so fall back to linking the file without an anchor.
             pass
 
     return f"{REPO_LINK}/blob/main/src/{filename}"

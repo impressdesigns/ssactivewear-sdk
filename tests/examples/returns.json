@@ -1,0 +1,176 @@
+[
+  {
+    "guid": "86eebe85-e0d6-469c-bc66-d92009b41549",
+    "companyName": "S&S Activewear",
+    "warehouseAbbr": "TX",
+    "orderNumber": "100000",
+    "invoiceNumber": "2000000",
+    "poNumber": "TX Warehouse Vest",
+    "customerNumber": "100000",
+    "orderDate": "2020-07-19T15:24:21.81",
+    "expectedDeliveryDate": "2020-07-21T00:00:00",
+    "orderType": "Credit",
+    "terms": "Net 30",
+    "orderStatus": "Credit",
+    "dropship": false,
+    "shippingCarrier": "UPS",
+    "shippingMethod": "UPS Ground",
+    "shipBlind": true,
+    "shippingCollectNumber": "",
+    "shippingAddress": {
+      "customer": "S&S Activewear",
+      "attn": "Customer To Return",
+      "address": "2601 Quorum Drive",
+      "city": "Fort Worth",
+      "state": "TX",
+      "zip": "76137"
+    },
+    "subtotal": -1.00,
+    "shipping": 0.00,
+    "cod": 0.00,
+    "tax": 0.00,
+    "smallOrderFee": 0.00,
+    "cuponDiscount": 0.00,
+    "sampleDiscount": 0.00,
+    "setUpFee": 0.00,
+    "restockFee": 0.00,
+    "debitCredit": 0.00,
+    "total": -1.00,
+    "totalPieces": -20.00,
+    "totalLines": 1,
+    "totalWeight": 20.00,
+    "totalBoxes": 1,
+    "deliveryStatus": "",
+    "conveyorLane": "2",
+    "returnInformation": {
+      "shippingLabelURL": "https://www.ssactivewear.com//myaccount/returnlabel.aspx?orderguid=8da1c190-cd03-409e-8df9-56377dc78fcc",
+      "returnItemsRequired": "true",
+      "returnToAddress": {
+        "attn": "Returns Department",
+        "address": "2601 Quorum Drive",
+        "city": "Fort Worth",
+        "state": "TX",
+        "zip": "76137"
+      },
+      "raNumber": "100000",
+      "originalInvoice": "400000",
+      "returnReason": "Do Not Need"
+    },
+    "lines": [
+      {
+        "lineNumber": 1,
+        "type": "S",
+        "skuID": 1175144,
+        "sku": "B86129175",
+        "gtin": "00801094119124",
+        "yourSku": "",
+        "qtyOrdered": -20,
+        "price": 1.00,
+        "brandName": "ML Kishigo",
+        "styleName": "1191-1192",
+        "title": "Economy Mesh 6-Pocket Vest",
+        "colorName": "Lime",
+        "sizeName": "L/XL",
+        "returnable": true
+      }
+    ],
+    "boxes": [
+      {
+        "boxNumber": 1,
+        "trackingNumber": "1Z90A10R9032905376",
+        "weight": 0.0000,
+        "cubicVolume": 0.0000,
+        "boxRequired": false,
+        "conveyorBarcode": "35757227.0012",
+        "returnInformation": {
+          "shippingLabelPNG": "https://devapi.ssactivewear.com/shippinglabel.png?OrderGUID=8da1c190-cd03-409e-8df9-56377dc78fcc&Box=1",
+          "shippingLabelZPL": "XXXXXXX"
+        },
+        "lines": [
+          {
+            "lineNumber": 1,
+            "type": "S",
+            "skuID": 1175144,
+            "sku": "B86129175",
+            "gtin": "00801094119124",
+            "yourSku": "",
+            "qtyOrdered": 20,
+            "brandName": "ML Kishigo",
+            "styleName": "1191-1192",
+            "title": "Economy Mesh 6-Pocket Vest",
+            "colorName": "Lime",
+            "sizeName": "L/XL"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "guid": "922fda45-808e-4d1d-85ef-020c6ab313a8",
+    "companyName": "S&S Activewear",
+    "warehouseAbbr": "GA",
+    "orderNumber": "500000",
+    "invoiceNumber": "600000",
+    "poNumber": "TX Warehouse Vest",
+    "customerNumber": "100000",
+    "orderDate": "2020-07-19T15:24:21.28",
+    "expectedDeliveryDate": "2020-07-22T00:00:00",
+    "orderType": "Replacement",
+    "terms": "Net 30",
+    "orderStatus": "In Progress",
+    "dropship": false,
+    "shippingCarrier": "UPS",
+    "shippingMethod": "UPS Ground",
+    "shipBlind": true,
+    "shippingCollectNumber": "",
+    "shippingAddress": {
+      "customer": "S&S Activewear",
+      "attn": "Replacement Goods",
+      "address": "2601 Quorum Drive",
+      "city": "Fort Worth",
+      "state": "TX",
+      "zip": "76137"
+    },
+    "subtotal": 1.00,
+    "shipping": 0.00,
+    "cod": 0.00,
+    "tax": 0.00,
+    "smallOrderFee": 0.00,
+    "cuponDiscount": 0.00,
+    "sampleDiscount": 0.00,
+    "setUpFee": 0.00,
+    "restockFee": 0.00,
+    "debitCredit": 0.00,
+    "total": 1.00,
+    "totalPieces": 0,
+    "totalLines": 1,
+    "totalWeight": 20.40,
+    "totalBoxes": 1,
+    "deliveryStatus": "",
+    "conveyorLane": "2",
+    "returnInformation": {
+      "raNumber": "500000",
+      "originalInvoice": "400000",
+      "returnReason": "Wrong style or color"
+    },
+    "lines": [
+      {
+        "lineNumber": 1,
+        "type": "S",
+        "skuID": 1472824,
+        "sku": "B86129175",
+        "gtin": "00801094119124",
+        "yourSku": "",
+        "qtyOrdered": 20,
+        "price": 10.84,
+        "brandName": "ML Kishigo",
+        "styleName": "1191-1192",
+        "title": "Economy Mesh 6-Pocket Vest",
+        "colorName": "Lime",
+        "sizeName": "L/XL",
+        "returnable": true
+      }
+    ]
+
+  }
+]

@@ -1,0 +1,206 @@
+[
+    {
+        "sku": "B00760004",
+        "gtin": "00821780001001",
+        "skuID_Master": 2343,
+        "yourSku": "",
+        "styleID": 39,
+        "brandName": "Gildan",
+        "brandID": "35",
+        "styleName": "2000",
+        "colorName": "White",
+        "colorCode": "00",
+        "colorPriceCodeName": "White",
+        "colorGroup": "79",
+        "colorGroupName": "White",
+        "colorFamilyID": "19",
+        "colorFamily": "Whites",
+        "baseCategoryID": "16",
+        "colorSwatchImage": "Images/ColorSwatch/34061_fm.jpg",
+        "colorSwatchTextColor": "#000000",
+        "colorFrontImage": "Images/Color/17130_f_fm.jpg",
+        "colorSideImage": "",
+        "colorBackImage": "Images/Color/17130_b_fm.jpg",
+        "colorDirectSideImage": "Images/Color/17130_d_fm.jpg",
+        "colorOnModelFrontImage": "Images/ModelColor/17130_omf_fm.jpg",
+        "colorOnModelSideImage": "Images/ModelColor/17130_oms_fm.jpg",
+        "colorOnModelBackImage": "Images/ModelColor/17130_omb_fm.jpg",
+        "color1": "#FFFFFF",
+        "color2": "",
+        "sizeName": "M",
+        "sizeCode": "4",
+        "sizeOrder": "B2",
+        "sizePriceCodeName": "S-XL",
+        "caseQty": 72,
+        "unitWeight": 0.4208,
+        "mapPrice": 0.01,
+        "retailPrice": 6.90,
+        "piecePrice": 3.12,
+        "dozenPrice": 3.12,
+        "casePrice": 3.12,
+        "salePrice": 2.72,
+        "customerPrice": 2.72,
+        "saleExpiration": "2026-07-30T00:00:00",
+        "noeRetailing": false,
+        "caseWeight": 30.30,
+        "caseWidth": 16.50,
+        "caseLength": 21.00,
+        "caseHeight": 13.00,
+        "polyPackQty": 0,
+        "qty": 5000,
+        "countryOfOrigin": "DO, HN, HT, NI",
+        "warehouses": [
+            {
+                "warehouseAbbr": "KS",
+                "skuID": 263747,
+                "qty": 500,
+                "closeout": false,
+                "dropship": false,
+                "excludeFreeFreight": false,
+                "fullCaseOnly": false,
+                "returnable": true,
+                "expectedInventory": "EnRoute:None|OnOrder:None"
+            },
+            {
+                "warehouseAbbr": "DS",
+                "skuID": 291266,
+                "qty": 0,
+                "closeout": false,
+                "dropship": true,
+                "excludeFreeFreight": false,
+                "fullCaseOnly": true,
+                "returnable": true,
+                "expectedInventory": "EnRoute:None|OnOrder:None"
+            },
+            {
+                "warehouseAbbr": "TX",
+                "skuID": 1120975,
+                "qty": 500,
+                "closeout": false,
+                "dropship": false,
+                "excludeFreeFreight": false,
+                "fullCaseOnly": false,
+                "returnable": true,
+                "expectedInventory": "EnRoute:None|OnOrder:None"
+            },
+            {
+                "warehouseAbbr": "GA",
+                "skuID": 1566338,
+                "qty": 500,
+                "closeout": false,
+                "dropship": false,
+                "excludeFreeFreight": false,
+                "fullCaseOnly": false,
+                "returnable": true,
+                "expectedInventory": "EnRoute:None|OnOrder:2026-1000+, "
+            },
+            {
+                "warehouseAbbr": "NV",
+                "skuID": 1914987,
+                "qty": 500,
+                "closeout": false,
+                "dropship": false,
+                "excludeFreeFreight": false,
+                "fullCaseOnly": false,
+                "returnable": true,
+                "expectedInventory": "EnRoute:None|OnOrder:None"
+            },
+            {
+                "warehouseAbbr": "IL",
+                "skuID": 2411238,
+                "qty": 500,
+                "closeout": false,
+                "dropship": false,
+                "excludeFreeFreight": false,
+                "fullCaseOnly": false,
+                "returnable": true,
+                "expectedInventory": "EnRoute:None|OnOrder:2026-1000+, "
+            },
+            {
+                "warehouseAbbr": "OH",
+                "skuID": 3558767,
+                "qty": 500,
+                "closeout": false,
+                "dropship": false,
+                "excludeFreeFreight": false,
+                "fullCaseOnly": false,
+                "returnable": true,
+                "expectedInventory": "EnRoute:None|OnOrder:None"
+            },
+            {
+                "warehouseAbbr": "PA",
+                "skuID": 4350664,
+                "qty": 500,
+                "closeout": false,
+                "dropship": false,
+                "excludeFreeFreight": false,
+                "fullCaseOnly": false,
+                "returnable": true,
+                "expectedInventory": "EnRoute:None|OnOrder:None"
+            },
+            {
+                "warehouseAbbr": "CN",
+                "skuID": 6254100,
+                "qty": 500,
+                "closeout": false,
+                "dropship": false,
+                "excludeFreeFreight": false,
+                "fullCaseOnly": false,
+                "returnable": true,
+                "expectedInventory": "EnRoute:None|OnOrder:None"
+            },
+            {
+                "warehouseAbbr": "FO",
+                "skuID": 6772394,
+                "qty": 500,
+                "closeout": false,
+                "dropship": false,
+                "excludeFreeFreight": false,
+                "fullCaseOnly": false,
+                "returnable": true,
+                "expectedInventory": "EnRoute:None|OnOrder:None"
+            },
+            {
+                "warehouseAbbr": "MA",
+                "skuID": 8327859,
+                "qty": 500,
+                "closeout": false,
+                "dropship": false,
+                "excludeFreeFreight": false,
+                "fullCaseOnly": false,
+                "returnable": true,
+                "expectedInventory": "EnRoute:None|OnOrder:None"
+            }
+        ],
+        "mediaAssets": [
+            {
+                "image": "Images/Style/39_fm.jpg",
+                "asset_type": "Style"
+            },
+            {
+                "image": "Images/Color/17130_f_fm.jpg",
+                "asset_type": "Front"
+            },
+            {
+                "image": "Images/Color/17130_b_fm.jpg",
+                "asset_type": "Back"
+            },
+            {
+                "image": "Images/Color/17130_d_fm.jpg",
+                "asset_type": "DirectSide"
+            },
+            {
+                "image": "Images/ModelColor/17130_omf_fm.jpg",
+                "asset_type": "OnModel_Front"
+            },
+            {
+                "image": "Images/ModelColor/17130_omb_fm.jpg",
+                "asset_type": "OnModel_Back"
+            },
+            {
+                "image": "Images/ModelColor/17130_oms_fm.jpg",
+                "asset_type": "OnModel_Side"
+            }
+        ]
+    }
+]

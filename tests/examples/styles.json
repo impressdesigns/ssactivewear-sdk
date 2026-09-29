@@ -1,0 +1,26 @@
+[
+   {
+    "styleID": 39,
+    "partNumber": "00760",
+    "brandName": "Gildan",
+    "styleName": "2000",
+    "title": "Ultra Cotton™ T-Shirt",
+    "description":
+        "6.0 oz., pre-shrunk 100% cotton (Dark Heather, Heather Cardinal, Heather Indigo, Heather Navy, Heather Sapphire, Safety Green, Safety Orange and Safety Pink are 50/50 cotton/polyester. Antique Cherry Red, Antique Irish Green, Antique Royal and Sport Grey are 90/10 cotton/polyester. Ash Grey is 99/1 cotton/polyester.)\n        Safety Green and Safety Orange are compliant with ANSI High Visibility Standards\n        Double-needle stitched neckline, bottom hem and sleeves\n        Quarter-turned\n        Shoulder-to-shoulder taping\n        Seven-eighths inch collar",
+    "baseCategory": "T-Shirts",
+    "categories": "21,57,71,79,87",
+    "catalogPageNumber": "182",
+    "newStyle": false,
+    "comparableGroup": 7,
+    "companionGroup": 2,
+    "brandImage": "Images/Brand/35_fl.jpg",
+    "styleImage": "Images/Style/39_fl.jpg",
+    "sustainableStyle": true,
+    "mediaAssets": [
+        {
+            "image": "Images/Style/39_fm.jpg",
+            "assetType": "Style"
+        }
+    ]
+  }
+]
