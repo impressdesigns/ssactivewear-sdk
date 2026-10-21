@@ -1,0 +1,71 @@
+{
+  "lineErrors": [],
+  "orders": [
+    {
+      "guid": "ffc04f93-12ad-45d2-b951-40a4a93d128d",
+      "companyName": "S&S Activewear",
+      "warehouseAbbr": "GA",
+      "orderNumber": "77203973",
+      "invoiceNumber": "",
+      "poNumber": "88816",
+      "customerNumber": "10001",
+      "orderDate": "2026-10-20T19:40:21.933",
+      "expectedDeliveryDate": "2026-10-23T00:00:00",
+      "quotedDeliveryDate": "2026-10-23T00:00:00",
+      "orderType": "API",
+      "terms": "Net 45",
+      "orderStatus": "In Progress",
+      "dropship": false,
+      "shippingCarrier": "UPS",
+      "shippingMethod": "UPS Ground",
+      "shipBlind": false,
+      "shippingCollectNumber": "",
+      "shippingAddress": {
+        "customer": "Impress Designs",
+        "attn": "Receiving Department",
+        "address": "1404 W Main St",
+        "city": "Carrollton",
+        "state": "TX",
+        "zip": "75006"
+      },
+      "subtotal": 32.01,
+      "shipping": 0.00,
+      "shippingSaved": 22.50,
+      "cod": 0.00,
+      "tax": 0.00,
+      "lostCashDiscount": 0.00,
+      "smallOrderFee": 0.00,
+      "cuponDiscount": -32.01,
+      "sampleDiscount": 0.00,
+      "setUpFee": 0.00,
+      "restockFee": 0.00,
+      "debitCredit": 0.00,
+      "total": 0.00,
+      "totalPieces": 0,
+      "totalLines": 0,
+      "totalWeight": 1.49,
+      "totalBoxes": 1,
+      "deliveryStatus": "",
+      "conveyorLane": "2",
+      "groupBatchName": "",
+      "isGroupOrder": false,
+      "lines": [
+        {
+          "lineNumber": 1,
+          "type": "S",
+          "skuID": 4284692,
+          "sku": "B09724507",
+          "gtin": "00195981773392",
+          "qtyOrdered": 1,
+          "price": 32.01,
+          "brandName": "Columbia",
+          "styleName": "212478",
+          "title": "Men's Steens Mountain™ Full Zip 2.0 Jacket",
+          "colorName": "Black",
+          "sizeName": "XXL",
+          "returnable": true
+        }
+      ]
+    }
+  ]
+}

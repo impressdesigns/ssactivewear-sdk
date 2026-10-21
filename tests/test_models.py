@@ -19,6 +19,7 @@ from ssactivewear_sdk import (
     OrderLineRequest,
     OrderRequest,
     OrderShippingAddress,
+    OrderSubmission,
     PaymentProfile,
     PaymentProfileReference,
     Product,
@@ -222,6 +223,17 @@ def test_placed_order_example_parses() -> None:
     assert order.ship_date is None
     (line,) = order.lines
     assert (line.sku, line.qty_ordered, line.price, line.returnable) == ("B22060655", 12, Decimal("3.22"), True)
+
+
+def test_live_placed_order_without_your_sku_parses() -> None:
+    """A real placement answer, on an account with no cross references, leaves out ``yourSku``."""
+    submission = OrderSubmission.model_validate_json(example("orders_create_live.json"))
+
+    (order,) = submission.orders
+    assert submission.line_errors == []
+    assert (order.order_number, order.warehouse_abbr) == ("77203973", "GA")
+    (line,) = order.lines
+    assert (line.gtin, line.qty_ordered, line.your_sku) == ("00195981773392", 1, None)
 
 
 def test_cancelled_order_example_parses() -> None:

@@ -1,6 +1,9 @@
 Changelog
 =========
 
+- :bug:`- major` Parse an order line without ``yourSku``, which S&S leaves out when no cross reference is set up.
+  ``OrderLine.your_sku`` is now ``None`` then. Placing an order raised a ``ValidationError`` after S&S had placed
+  it.
 - :release:`1.0.0 <29th September 2026>`
 - :feature:`-` Cover the whole S&S API: categories, brands, styles, products, inventory, specs, orders, payment
   profiles, invoices, returns, cross references, days in transit, and tracking.

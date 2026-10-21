@@ -21,7 +21,7 @@ Sample
    identical field for field. They predate several current fields, so they are only
    evidence for the fields they do contain.
 
-None of these corrections were checked against the live API. Where the evidence doesn't
+Unless an entry cites a live response, the corrections were not checked against the live API. Where the evidence doesn't
 settle a question, the SDK accepts every documented shape instead of picking one, and the
 entry says so. The documented examples ship with the test suite in ``tests/examples/``, and
 the tests check the SDK's handling of each correction that affects a request or a response.
@@ -225,8 +225,13 @@ Orders
        and LineErrors". There is no example of the shape.
      - Accepts ``orders``/``Orders`` and ``lineErrors``/``LineErrors``, and keeps each line
        error as raw JSON in
-       :attr:`~ssactivewear_sdk.models.orders.OrderSubmission.line_errors`. **Unverified.**
-     - None; every other response uses camelCase names.
+       :attr:`~ssactivewear_sdk.models.orders.OrderSubmission.line_errors`.
+     - A live order placed on 20th October 2026 answered ``orders`` and ``lineErrors``
+       (``tests/examples/orders_create_live.json``). The line error shape is still unverified.
+   * - Every order line has ``yourSku``.
+     - Makes :attr:`~ssactivewear_sdk.models.orders.OrderLine.your_sku` optional.
+     - The live order above left ``yourSku`` out of its line, on an account with no cross
+       references set up.
 
 Payment profiles
 ----------------

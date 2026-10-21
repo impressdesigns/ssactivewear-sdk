@@ -274,9 +274,10 @@ class OrderLine(SSActivewearBaseModel):
     gtin: str = Field(
         description="Industry standard identifier used by all suppliers.",
     )
-    your_sku: str = Field(
+    your_sku: str | None = Field(
+        default=None,
         alias="yourSku",
-        description="Your sku, set up using the cross reference API.",
+        description="Your sku, set up using the cross reference API. Left out when none is set up.",
     )
     qty_ordered: FlexibleInt = Field(
         alias="qtyOrdered",
