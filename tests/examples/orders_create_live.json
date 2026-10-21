@@ -1,0 +1,71 @@
+{
+  "lineErrors": [],
+  "orders": [
+    {
+      "guid": "3f2c1a9e-5b7d-4e8f-9a0b-1c2d3e4f5a6b",
+      "companyName": "S&S Activewear",
+      "warehouseAbbr": "IL",
+      "orderNumber": "12345678",
+      "invoiceNumber": "",
+      "poNumber": "1001",
+      "customerNumber": "10001",
+      "orderDate": "2026-01-05T09:30:00.123",
+      "expectedDeliveryDate": "2026-01-08T00:00:00",
+      "quotedDeliveryDate": "2026-01-08T00:00:00",
+      "orderType": "API",
+      "terms": "Net 45",
+      "orderStatus": "In Progress",
+      "dropship": false,
+      "shippingCarrier": "UPS",
+      "shippingMethod": "UPS Ground",
+      "shipBlind": false,
+      "shippingCollectNumber": "",
+      "shippingAddress": {
+        "customer": "Example Decorator",
+        "attn": "Receiving",
+        "address": "100 Main St",
+        "city": "Springfield",
+        "state": "IL",
+        "zip": "62701"
+      },
+      "subtotal": 10.00,
+      "shipping": 0.0,
+      "shippingSaved": 0.0,
+      "cod": 0.0,
+      "tax": 0.0,
+      "lostCashDiscount": 0.0,
+      "smallOrderFee": 0.0,
+      "cuponDiscount": 0.0,
+      "sampleDiscount": 0.0,
+      "setUpFee": 0.0,
+      "restockFee": 0.0,
+      "debitCredit": 0.0,
+      "total": 10.0,
+      "totalPieces": 0,
+      "totalLines": 0,
+      "totalWeight": 0.5,
+      "totalBoxes": 1,
+      "deliveryStatus": "",
+      "conveyorLane": "1",
+      "groupBatchName": "",
+      "isGroupOrder": false,
+      "lines": [
+        {
+          "lineNumber": 1,
+          "type": "S",
+          "skuID": 1000001,
+          "sku": "B00000001",
+          "gtin": "00100000000017",
+          "qtyOrdered": 1,
+          "price": 10.0,
+          "brandName": "Brand",
+          "styleName": "100",
+          "title": "Tee",
+          "colorName": "Black",
+          "sizeName": "M",
+          "returnable": true
+        }
+      ]
+    }
+  ]
+}

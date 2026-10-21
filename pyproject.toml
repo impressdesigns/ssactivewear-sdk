@@ -1,6 +1,6 @@
 [project]
 name = "idi-ssactivewear-sdk"
-version = "1.0.0"
+version = "1.0.1"
 description = "A wrapper for S&S' API."
 authors = [
     { name = "Bradley Reynolds", email = "bradley.reynolds@impressdesigns.com" },
