@@ -226,14 +226,14 @@ def test_placed_order_example_parses() -> None:
 
 
 def test_live_placed_order_without_your_sku_parses() -> None:
-    """A real placement answer, on an account with no cross references, leaves out ``yourSku``."""
+    """A placement answer shaped like a live one, on an account with no cross references, has no ``yourSku``."""
     submission = OrderSubmission.model_validate_json(example("orders_create_live.json"))
 
     (order,) = submission.orders
     assert submission.line_errors == []
-    assert (order.order_number, order.warehouse_abbr) == ("77203973", "GA")
+    assert (order.order_number, order.warehouse_abbr) == ("12345678", "IL")
     (line,) = order.lines
-    assert (line.gtin, line.qty_ordered, line.your_sku) == ("00195981773392", 1, None)
+    assert (line.gtin, line.qty_ordered, line.your_sku) == ("00100000000017", 1, None)
 
 
 def test_cancelled_order_example_parses() -> None:

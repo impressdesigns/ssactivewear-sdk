@@ -227,7 +227,7 @@ Orders
        error as raw JSON in
        :attr:`~ssactivewear_sdk.models.orders.OrderSubmission.line_errors`.
      - A live order placed on 20th October 2026 answered ``orders`` and ``lineErrors``
-       (``tests/examples/orders_create_live.json``). The line error shape is still unverified.
+       (``tests/examples/orders_create_live.json`` keeps its shape, with invented values). The line error shape is still unverified.
    * - Every order line has ``yourSku``.
      - Makes :attr:`~ssactivewear_sdk.models.orders.OrderLine.your_sku` optional.
      - The live order above left ``yourSku`` out of its line, on an account with no cross
