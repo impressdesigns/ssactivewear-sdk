@@ -10,7 +10,6 @@ __pycache__
 site/
 
 # Test reporting
-junit.xml
 coverage.xml
 
 # JetBrains
